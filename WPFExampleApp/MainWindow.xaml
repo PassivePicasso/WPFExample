@@ -1,0 +1,49 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    
+    <!--DataContext is what provides access to all the properties you will bind to in a XAML application-->
+    <!--You can update DataContext's at any time and WPF (or whatever XAML UI engine your using) will update automatically-->
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <!--The Resources member of elements will provide access to the defined resources to all child elements-->
+        <!--Since we are usig the windows resources, any element contained by this window will gain access to these DataTemplates-->
+        
+        <!--DataTemplates associate a type with a set of xaml, a DataTemplates DataContext is an instance of the DataType, you can bind to Properties on that type as a result-->
+        <DataTemplate DataType="{x:Type local:AlphaSectionViewModel}">
+            <!--A Binding will examine the Current DataContext and look up a property at the given Path, walking through properties if necessary-->
+            <!--When a Binding is assigned a DataContext, it will check if the type assigned implements INotifyPropertyChanged 
+                and if it does it will register an EventHandler so that it can receive updates when the property changes if that Property invokes the PropertyChanged event-->
+            <TextBlock Text="{Binding Path=Title}"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:BetaSectionViewModel}">
+            <TextBlock Text="{Binding Path=Title}" ToolTip="{Binding Path=SubTitle}"/>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!--We bind the ListBox to the MainViewModels Sections collection.  the Windows Resources will provide the intructions on how to render each element via the DataTemplates defined in the Window's Resources-->
+        <ListBox x:Name="Sidebar" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                 ItemsSource="{Binding Path=Sections}" />
+
+        <Border Grid.Column="1" Background="LightGreen" Margin="2" BorderBrush="Black" BorderThickness="2">
+            
+            <!--ListBox has a member, SelectedItem, which makes the currently selected item available, we will the ContentPresenter's ContentProperty to that-->
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Content="{Binding Path=SelectedItem, ElementName=Sidebar}"/>
+        </Border>
+    </Grid>
+</Window>
