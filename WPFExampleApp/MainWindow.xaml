@@ -1,22 +1,22 @@
-﻿<Window x:Class="WpfApp1.MainWindow"
+﻿<Window x:Class="WPFExampleApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:local="clr-namespace:WPFExampleApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    
+
     <!--DataContext is what provides access to all the properties you will bind to in a XAML application-->
     <!--You can update DataContext's at any time and WPF (or whatever XAML UI engine your using) will update automatically-->
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
-    
+
     <Window.Resources>
         <!--The Resources member of elements will provide access to the defined resources to all child elements-->
         <!--Since we are usig the windows resources, any element contained by this window will gain access to these DataTemplates-->
-        
+
         <!--DataTemplates associate a type with a set of xaml, a DataTemplates DataContext is an instance of the DataType, you can bind to Properties on that type as a result-->
         <DataTemplate DataType="{x:Type local:AlphaSectionViewModel}">
             <!--A Binding will examine the Current DataContext and look up a property at the given Path, walking through properties if necessary-->
@@ -28,7 +28,7 @@
             <TextBlock Text="{Binding Path=Title}" ToolTip="{Binding Path=SubTitle}"/>
         </DataTemplate>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
@@ -40,7 +40,21 @@
                  ItemsSource="{Binding Path=Sections}" />
 
         <Border Grid.Column="1" Background="LightGreen" Margin="2" BorderBrush="Black" BorderThickness="2">
-            
+            <!--Here we override access to the DataTemplates defined in Window.Resources so that ContentPresenter's TextBlocks have larger text
+                We could alternatively use a Style on TextBox here to set the FontSize. Comment out the DataTemplates and uncomment the Style
+                The UI should remain the same, but we accomplish it through a different path-->
+            <Border.Resources>
+                <!--<Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="20"/>
+                </Style>-->
+                <DataTemplate DataType="{x:Type local:AlphaSectionViewModel}">
+                    <TextBlock Text="{Binding Path=Title}" FontSize="20"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type local:BetaSectionViewModel}">
+                    <TextBlock Text="{Binding Path=Title}" ToolTip="{Binding Path=SubTitle}"  FontSize="20"/>
+                </DataTemplate>
+            </Border.Resources>
+
             <!--ListBox has a member, SelectedItem, which makes the currently selected item available, we will the ContentPresenter's ContentProperty to that-->
             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
                           Content="{Binding Path=SelectedItem, ElementName=Sidebar}"/>

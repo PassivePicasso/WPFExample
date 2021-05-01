@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace WpfApp1
+namespace WPFExampleApp
 {
     public class MainViewModel : INotifyPropertyChanged
     {
