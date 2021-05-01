@@ -12,12 +12,17 @@ namespace WPFExampleApp
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+
+        /// <summary>
+        /// ObservableCollection implements INotifyCollectionChanging and INotifyCollectionChanged and when Add or Remove are invoked it will invoke its change events and the UI will update
+        /// </summary>
         public ObservableCollection<object> Sections
         {
             get => sections;
             set
             {
                 sections = value;
+                //If we want to inform the UI that this property has changed we must invoke the PropertyChanged Event
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sections)));
             }
         }
