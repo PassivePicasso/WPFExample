@@ -21,7 +21,7 @@
         <DataTemplate DataType="{x:Type local:AlphaSectionViewModel}">
             <!--A Binding will examine the Current DataContext and look up a property at the given Path, walking through properties if necessary-->
             <!--When a Binding is assigned a DataContext, it will check if the type assigned implements INotifyPropertyChanged 
-                and if it does it will register an EventHandler so that it can receive updates when the property changes if that Property invokes the PropertyChanged event-->
+                and if the DataContext does the Binding will register an EventHandler so that it can receive updates when the property changes if that Property invokes the PropertyChanged event-->
             <TextBlock Text="{Binding Path=Title}"/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type local:BetaSectionViewModel}">
