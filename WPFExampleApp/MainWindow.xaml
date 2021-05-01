@@ -9,6 +9,9 @@
 
     <!--DataContext is what provides access to all the properties you will bind to in a XAML application-->
     <!--You can update DataContext's at any time and WPF (or whatever XAML UI engine your using) will update automatically-->
+    <!--Every XAML element has a DataContext and that DataContext can be changed in a few places, 
+        such as in DataTemplates, or by ItemsControls, (such as ListBox, ListView, DataGrid and ItemsControl itself.
+    -->
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
